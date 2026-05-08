@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI App Builder Sprint — Strategic Brief</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    #sidebar::-webkit-scrollbar { width: 4px; }
+    #sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb { background: #E5E5E3; border-radius: 2px; }
+
+    .nav-link { transition: all 0.15s ease; }
+    .nav-link.active {
+      border-left-color: #4338CA !important;
+      color: #0F0F0F !important;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="bg-[#FAFAF8] font-sans text-[#1A1A1A]" style="font-size:17px; line-height:1.75;">
+
+  <!-- Mobile overlay -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/30 z-20 hidden lg:hidden" onclick="closeSidebar()"></div>
+
+  <!-- Hamburger (mobile only) -->
+  <button onclick="toggleSidebar()" class="fixed top-4 left-4 z-30 lg:hidden bg-white border border-[#E5E5E3] rounded-lg p-2 shadow-sm">
+    <svg class="w-5 h-5 text-[#1A1A1A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed left-0 top-0 h-screen w-[240px] bg-white border-r border-[#E5E5E3] overflow-y-auto z-30 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+
+    <div class="px-5 py-6 border-b border-[#E5E5E3]">
+      <div class="text-[10px] font-semibold text-[#4338CA] uppercase tracking-widest mb-1">Strategic Brief</div>
+      <div class="text-[14px] font-semibold text-[#0F0F0F] leading-snug">AI App Builder Sprint</div>
+    </div>
+
+    <nav class="px-3 py-5" id="nav">
+      <div class="text-[10px] font-semibold text-[#B0B0AE] uppercase tracking-widest px-3 mb-3">Contents</div>
+
+      <a href="#overview" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">Overview</a>
+
+      <a href="#course-concept" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">Course Concept</a>
+
+      <a href="#personas" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">Target Personas</a>
+      <div class="ml-3">
+        <a href="#persona-founder" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">Non-Technical Founder</a>
+        <a href="#persona-freelancer" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">Freelancer / Agency Owner</a>
+        <a href="#persona-msme" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">MSME Owner / Operator</a>
+        <a href="#persona-student" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">Career Switcher / Student</a>
+      </div>
+
+      <a href="#pricing" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">Pricing Architecture</a>
+
+      <a href="#fuckyeah" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">The "Fuck Yeah" Value Prop</a>
+      <div class="ml-3">
+        <a href="#fy-founders" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">For Founders</a>
+        <a href="#fy-freelancers" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">For Freelancers</a>
+        <a href="#fy-msme" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">For MSMEs</a>
+        <a href="#fy-students" class="nav-link block px-3 py-1 text-[12px] text-[#8A8A88] border-l-[3px] border-transparent hover:text-[#1A1A1A] hover:border-[#E0E0DE] rounded-r-sm">For Students</a>
+      </div>
+
+      <a href="#strategic-rec" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">Strategic Recommendation</a>
+
+      <a href="#refined-concept" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">Refined Course Concept</a>
+
+      <a href="#what-to-change" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">What to Change</a>
+
+      <a href="#best-offer" class="nav-link block px-3 py-1.5 text-[13px] text-[#5A5A57] border-l-[3px] border-transparent hover:text-[#0F0F0F] hover:border-[#E0E0DE] rounded-r-sm">Best Final Offer</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="lg:ml-[240px] min-h-screen">
+    <div class="max-w-[740px] mx-auto px-6 sm:px-10 py-14 lg:py-16">
+
+      <!-- Document header -->
+      <header class="mb-14 pb-10 border-b border-[#E5E5E3]">
+        <div class="text-[11px] font-semibold text-[#4338CA] uppercase tracking-widest mb-4">Philippines AI Course Market · Strategic Brief</div>
+        <h1 class="text-[38px] sm:text-[44px] font-bold text-[#0F0F0F] leading-tight mb-4">AI App Builder Sprint</h1>
+        <p class="text-[17px] text-[#5A5A57] leading-relaxed max-w-[580px]">A strategic analysis of the market opportunity, refined course positioning, target personas, pricing architecture, and final recommendations for a Philippines-market AI product-building program.</p>
+        <div class="flex items-center gap-3 mt-6 flex-wrap">
+          <span class="text-[13px] text-[#9E9E9B]">May 2026</span>
+          <span class="text-[#D5D5D3]">·</span>
+          <span class="text-[13px] text-[#9E9E9B]">9 sections</span>
+          <span class="text-[#D5D5D3]">·</span>
+          <span class="text-[13px] text-[#9E9E9B]">~15 min read</span>
+        </div>
+      </header>
+
+      <!-- ─── 01: OVERVIEW ─── -->
+      <section id="overview" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-7">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">01</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">Overview</h2>
+        </div>
+
+        <div class="space-y-4 text-[#2C2C29]">
+          <p>The market is not asking for "learn vibe coding." That sounds trendy, tool-dependent, and easy to copy.</p>
+          <p>The stronger offer is:</p>
+        </div>
+
+        <blockquote class="my-7 pl-5 border-l-4 border-[#4338CA] bg-[#F5F4F0] rounded-r-xl py-4 pr-5">
+          <p class="text-[17px] font-medium text-[#0F0F0F] leading-snug italic">Help non-technical Filipinos build, validate, and launch a useful AI-powered tool or micro-SaaS without hiring a developer.</p>
+        </blockquote>
+
+        <div class="space-y-4 text-[#2C2C29]">
+          <p>That shifts the course from "AI tools tutorial" to <strong class="text-[#0F0F0F]">business outcome</strong>. The research is directionally strong. The sharpest insight is this:</p>
+        </div>
+
+        <blockquote class="my-8 pl-5 border-l-4 border-[#4338CA]">
+          <p class="text-[19px] font-semibold text-[#0F0F0F] leading-[1.5]">The Philippines market does not need another coding bootcamp. It needs a practical AI product-building program for founders, freelancers, marketers, and MSME operators who have ideas but do not know how to turn them into something real.</p>
+        </blockquote>
+
+        <div class="space-y-4 mb-7">
+          <div class="bg-[#F5F4F0] border border-[#E5E5E3] rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#4338CA] flex-shrink-0"></span>
+              <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest">Market Signal</span>
+            </div>
+            <p class="text-[14.5px] text-[#2C2C29] leading-relaxed">The DOST is actively pushing AI adoption and MSME enablement through national AI strategy work and regional training efforts. DOST-NCR and PAIBA signed a 2026 partnership specifically aimed at helping businesses, startups, and researchers adopt AI-driven innovation. The DOST-ASTI NAIRA program has already trained researchers, government personnel, and MSME practitioners, and it is building an "AIgnite" capacity-building pipeline.</p>
+          </div>
+
+          <div class="bg-[#F5F4F0] border border-[#E5E5E3] rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#4338CA] flex-shrink-0"></span>
+              <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest">Community Signal</span>
+            </div>
+            <p class="text-[14.5px] text-[#2C2C29] leading-relaxed">There is an existing No-code Philippines community — confirming local interest in no-code/low-code as a movement, not just a foreign trend.</p>
+          </div>
+
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0"></span>
+              <span class="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Risk → Opportunity</span>
+            </div>
+            <p class="text-[14.5px] text-[#2C2C29] leading-relaxed">Vibe-coded apps are now being criticized for security, privacy, and poor maintainability. Axios recently reported that researchers found publicly accessible assets built with tools like Lovable, Replit, Base44, and Netlify — including some containing sensitive data. This is actually an <strong>opportunity</strong>. The course should not just teach people how to generate apps. It should teach them how to build safe, useful, launchable prototypes without pretending they are senior engineers.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── 02: COURSE CONCEPT ─── -->
+      <section id="course-concept" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-7">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">02</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">Course Concept</h2>
+        </div>
+
+        <div class="bg-white border border-[#E8E8E6] rounded-xl p-6 mb-7 shadow-sm">
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Recommended Course Name</div>
+          <div class="text-[28px] font-bold text-[#0F0F0F] leading-tight mb-2">Ship Your First AI App</div>
+          <div class="text-[15px] text-[#5A5A57] italic">A 4-week live build sprint for Filipino founders, freelancers, and operators who want to turn an idea into a working AI-powered product without coding.</div>
+        </div>
+
+        <p class="text-[#2C2C29] mb-6">This is stronger than "Vibe Coding Philippines" because it <strong class="text-[#0F0F0F]">sells the outcome, not the trend</strong>. "Vibe coding" can still be used in ads, SEO, and content — but do not make it the main brand. The term is hot, but it may age badly or attract low-intent curiosity seekers.</p>
+
+        <h3 class="text-[17px] font-semibold text-[#0F0F0F] mb-4">What the Course Teaches</h3>
+        <ol class="space-y-2.5 mb-9 text-[#2C2C29]">
+          <li class="flex gap-3"><span class="text-[#4338CA] font-semibold text-[14px] mt-0.5 flex-shrink-0 w-4">1.</span><span>Choose a small but useful AI app idea.</span></li>
+          <li class="flex gap-3"><span class="text-[#4338CA] font-semibold text-[14px] mt-0.5 flex-shrink-0 w-4">2.</span><span>Validate if anyone actually wants it.</span></li>
+          <li class="flex gap-3"><span class="text-[#4338CA] font-semibold text-[14px] mt-0.5 flex-shrink-0 w-4">3.</span><span>Build the first working version using AI builders — Lovable, Bolt, Replit, Claude, ChatGPT, Supabase, Airtable, Make/Zapier, and Webflow.</span></li>
+          <li class="flex gap-3"><span class="text-[#4338CA] font-semibold text-[14px] mt-0.5 flex-shrink-0 w-4">4.</span><span>Avoid common beginner mistakes around scope, security, payments, data, and broken workflows.</span></li>
+          <li class="flex gap-3"><span class="text-[#4338CA] font-semibold text-[14px] mt-0.5 flex-shrink-0 w-4">5.</span><span>Launch with a simple landing page and get first users, clients, or portfolio proof.</span></li>
+        </ol>
+
+        <h3 class="text-[17px] font-semibold text-[#0F0F0F] mb-4">Best Positioning</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-9">
+          <div class="bg-white border-2 border-[#4338CA] rounded-xl p-5">
+            <div class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest mb-3">✓ Use This</div>
+            <p class="text-[15px] text-[#0F0F0F] font-medium leading-snug">"Build your first useful AI app in 4 weeks — even if you are non-technical, busy, and starting from zero."</p>
+            <p class="text-[12.5px] text-[#6B6B68] mt-2">Sells transformation.</p>
+          </div>
+          <div class="bg-[#F8F7F5] border border-[#E5E5E3] rounded-xl p-5 opacity-55">
+            <div class="text-[10px] font-bold text-[#9E9E9B] uppercase tracking-widest mb-3">✗ Not This</div>
+            <p class="text-[15px] text-[#4A4A47] font-medium leading-snug">"Learn vibe coding with Lovable, Bolt, and Replit."</p>
+            <p class="text-[12.5px] text-[#9E9E9B] mt-2">Sells tools.</p>
+          </div>
+        </div>
+
+        <h3 class="text-[17px] font-semibold text-[#0F0F0F] mb-4">What the Course Should Not Promise</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-[#F8F7F5] border border-[#E5E5E3] rounded-xl p-5 opacity-55">
+            <div class="text-[10px] font-bold text-[#9E9E9B] uppercase tracking-widest mb-2">✗ Avoid</div>
+            <p class="text-[15px] text-[#4A4A47] font-medium">"Build a profitable SaaS in 4 weeks."</p>
+            <p class="text-[12.5px] text-[#9E9E9B] mt-2">Too aggressive. Attracts hype-driven students.</p>
+          </div>
+          <div class="bg-white border-2 border-[#4338CA] rounded-xl p-5">
+            <div class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest mb-2">✓ Better</div>
+            <p class="text-[15px] text-[#0F0F0F] font-medium">"Leave with a working prototype, a validation system, and a launch-ready offer you can test with real people."</p>
+            <p class="text-[12.5px] text-[#6B6B68] mt-2">Believable and still exciting.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── 03: PERSONAS ─── -->
+      <section id="personas" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">03</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">Target Personas</h2>
+        </div>
+        <p class="text-[#5A5A57] mb-9">Four distinct audience segments, each with different pain points, motivations, and willingness to pay.</p>
+
+        <!-- Persona 1 -->
+        <div id="persona-founder" class="bg-white border border-[#E8E8E6] rounded-xl p-6 mb-5 shadow-sm scroll-mt-10">
+          <div class="flex items-start justify-between gap-4 mb-5 flex-wrap">
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-bold text-[#4338CA] bg-[#EEF2FF] px-2.5 py-1 rounded-md uppercase tracking-widest flex-shrink-0">Persona 1</span>
+              <h3 class="text-[18px] font-bold text-[#0F0F0F]">The Non-Technical Founder</h3>
+            </div>
+            <span class="text-[13px] font-semibold text-[#4338CA] bg-[#EEF2FF] px-3 py-1.5 rounded-full whitespace-nowrap">₱7,500 – ₱19,999</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5 text-[14px]">
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Who They Are</div>
+              <p class="text-[#2C2C29]">Aspiring founders, startup employees, product-minded professionals with business ideas who cannot code.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Core Pain</div>
+              <p class="text-[#2C2C29]">Ideas blocked by technical execution. Hiring a developer feels expensive, slow, risky, or intimidating.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">What They Want</div>
+              <p class="text-[#2C2C29]">Test ideas fast before spending ₱100k–₱500k on developers.</p>
+            </div>
+          </div>
+          <div class="bg-[#F5F4F0] rounded-lg px-5 py-3.5 mb-5">
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Best Hook</div>
+            <p class="text-[15px] font-semibold text-[#0F0F0F] italic">"Before you hire a developer, build the first version yourself."</p>
+          </div>
+          <div>
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">Best Offer Angle — Founder MVP Sprint</div>
+            <ul class="space-y-1.5 text-[14px] text-[#2C2C29]">
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A working prototype</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A landing page to collect interest</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A validation script</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A user feedback plan</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A clearer product scope before spending on development</li>
+            </ul>
+          </div>
+          <p class="text-[13px] text-[#8A8A88] mt-5 pt-4 border-t border-[#F0F0EE]">Higher urgency and higher willingness to pay. Not buying education — buying speed, clarity, and lower startup risk.</p>
+        </div>
+
+        <!-- Persona 2 -->
+        <div id="persona-freelancer" class="bg-white border border-[#E8E8E6] rounded-xl p-6 mb-5 shadow-sm scroll-mt-10">
+          <div class="flex items-start justify-between gap-4 mb-5 flex-wrap">
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-bold text-[#4338CA] bg-[#EEF2FF] px-2.5 py-1 rounded-md uppercase tracking-widest flex-shrink-0">Persona 2</span>
+              <h3 class="text-[18px] font-bold text-[#0F0F0F]">The Freelancer / Agency Owner</h3>
+            </div>
+            <span class="text-[13px] font-semibold text-[#4338CA] bg-[#EEF2FF] px-3 py-1.5 rounded-full whitespace-nowrap">₱5,000 – ₱14,999</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5 text-[14px]">
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Who They Are</div>
+              <p class="text-[#2C2C29]">Designers, Webflow developers, marketers, VAs, automation specialists, social media managers, freelancers.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Core Pain</div>
+              <p class="text-[#2C2C29]">Competing in crowded service markets. They want a higher-value offer.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">What They Want</div>
+              <p class="text-[#2C2C29]">Sell AI tools, dashboards, lead magnets, calculators, portals, automations, or MVPs to clients.</p>
+            </div>
+          </div>
+          <div class="bg-[#F5F4F0] rounded-lg px-5 py-3.5 mb-5">
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Best Hook</div>
+            <p class="text-[15px] font-semibold text-[#0F0F0F] italic">"Add AI app builds to your service stack without becoming a full-stack developer."</p>
+          </div>
+          <div>
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">Best Offer Angle — AI Builder Service Accelerator</div>
+            <ul class="space-y-1.5 text-[14px] text-[#2C2C29]">
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>3–5 client-ready AI app templates</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A repeatable build process</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Proposal templates + Pricing guidance</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Portfolio projects</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A way to charge more for outcomes, not hours</li>
+            </ul>
+          </div>
+          <p class="text-[13px] text-[#8A8A88] mt-5 pt-4 border-t border-[#F0F0EE]">Probably your strongest persona — clear ROI. If they pay ₱9,999 and land one ₱30k–₱100k project, the course pays for itself immediately.</p>
+        </div>
+
+        <!-- Persona 3 -->
+        <div id="persona-msme" class="bg-white border border-[#E8E8E6] rounded-xl p-6 mb-5 shadow-sm scroll-mt-10">
+          <div class="flex items-start justify-between gap-4 mb-5 flex-wrap">
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-bold text-[#4338CA] bg-[#EEF2FF] px-2.5 py-1 rounded-md uppercase tracking-widest flex-shrink-0">Persona 3</span>
+              <h3 class="text-[18px] font-bold text-[#0F0F0F]">The MSME Owner / Operator</h3>
+            </div>
+            <span class="text-[13px] font-semibold text-[#4338CA] bg-[#EEF2FF] px-3 py-1.5 rounded-full whitespace-nowrap">₱4,999 – ₱12,999</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5 text-[14px]">
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Who They Are</div>
+              <p class="text-[#2C2C29]">Small business owners, ops managers, ecommerce operators, clinic admins, real estate teams, local service businesses.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Core Pain</div>
+              <p class="text-[#2C2C29]">Manual work, spreadsheets, repeated admin tasks, missed leads, scattered data, slow reporting.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">What They Want</div>
+              <p class="text-[#2C2C29]">They do not care about "apps." They care about saving time, reducing errors, and making their business more efficient.</p>
+            </div>
+          </div>
+          <div class="bg-[#F5F4F0] rounded-lg px-5 py-3.5 mb-5">
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Best Hook</div>
+            <p class="text-[15px] font-semibold text-[#0F0F0F] italic">"Turn one messy business process into a simple AI-powered internal tool."</p>
+          </div>
+          <div>
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">Best Offer Angle — AI Systems for Small Business</div>
+            <ul class="space-y-1.5 text-[14px] text-[#2C2C29]">
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A workflow audit</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>One internal tool prototype</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Automation map</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Basic dashboard or form system</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>SOP for using AI safely in the business</li>
+            </ul>
+          </div>
+          <p class="text-[13px] text-[#8A8A88] mt-5 pt-4 border-t border-[#F0F0EE]">Big market, but harder to sell through cold ads. They respond better to pain-based messaging: "stop rebuilding reports manually," "automate inquiries," "organize leads." Corporate/group training: ₱50,000–₱250,000 per workshop.</p>
+        </div>
+
+        <!-- Persona 4 -->
+        <div id="persona-student" class="bg-white border border-[#E8E8E6] rounded-xl p-6 shadow-sm scroll-mt-10">
+          <div class="flex items-start justify-between gap-4 mb-5 flex-wrap">
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-bold text-[#4338CA] bg-[#EEF2FF] px-2.5 py-1 rounded-md uppercase tracking-widest flex-shrink-0">Persona 4</span>
+              <h3 class="text-[18px] font-bold text-[#0F0F0F]">The Career Switcher / Student</h3>
+            </div>
+            <span class="text-[13px] font-semibold text-[#4338CA] bg-[#EEF2FF] px-3 py-1.5 rounded-full whitespace-nowrap">₱1,499 – ₱4,999</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5 text-[14px]">
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Who They Are</div>
+              <p class="text-[#2C2C29]">College students, fresh grads, BPO workers, junior marketers, and people who want an AI-era skill.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Core Pain</div>
+              <p class="text-[#2C2C29]">They feel behind. They want practical skills that lead to internships, freelancing, better roles, or portfolio projects.</p>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">What They Want</div>
+              <p class="text-[#2C2C29]">Proof of skill: portfolio, certificate, app demo, and confidence.</p>
+            </div>
+          </div>
+          <div class="bg-[#F5F4F0] rounded-lg px-5 py-3.5 mb-5">
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Best Hook</div>
+            <p class="text-[15px] font-semibold text-[#0F0F0F] italic">"Graduate with a working AI app in your portfolio, not just another certificate."</p>
+          </div>
+          <div>
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">Best Offer Angle — AI App Portfolio Sprint</div>
+            <ul class="space-y-1.5 text-[14px] text-[#2C2C29]">
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A portfolio project</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A demo video</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A certificate</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A GitHub/Replit/Lovable link</li>
+              <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A career positioning guide</li>
+            </ul>
+          </div>
+          <p class="text-[13px] text-[#8A8A88] mt-5 pt-4 border-t border-[#F0F0EE]">High volume, but lower willingness to pay. Good for volume cohorts, student pricing, or partnerships with schools.</p>
+        </div>
+      </section>
+
+      <!-- ─── 04: PRICING ─── -->
+      <section id="pricing" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">04</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">Pricing Architecture</h2>
+        </div>
+        <p class="text-[#5A5A57] mb-9">The original ₱4,999 price is too cheap for founders/freelancers and too expensive for students. Four tiers designed to serve the full spectrum.</p>
+
+        <!-- Tier 1 -->
+        <div class="bg-white border border-[#E8E8E6] rounded-xl p-6 mb-4 shadow-sm">
+          <div class="flex items-start justify-between gap-4 mb-4 flex-wrap">
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Tier 1</div>
+              <h3 class="text-[17px] font-bold text-[#0F0F0F]">Starter Workshop</h3>
+              <p class="text-[13px] text-[#8A8A88]">AI App Launch Workshop</p>
+            </div>
+            <div class="text-right">
+              <div class="text-[20px] font-bold text-[#0F0F0F]">₱1,999 – ₱2,999</div>
+              <div class="text-[12px] text-[#9E9E9B]">Early bird / Regular</div>
+            </div>
+          </div>
+          <div class="text-[12.5px] font-semibold text-[#8A8A88] mb-3">Best for: Students, beginners, curious people</div>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29]">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>1 live 3–4 hour workshop</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Build one simple AI app or landing page</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Tool walkthrough + Prompt templates</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Replay + Invite to upgrade into the 4-week cohort</li>
+          </ul>
+          <p class="text-[13px] text-[#8A8A88] italic mt-4">Purpose: lead generation and trust-building, not maximum profit.</p>
+        </div>
+
+        <!-- Tier 2 — Flagship -->
+        <div class="bg-white border border-[#E8E8E6] border-l-4 border-l-[#4338CA] rounded-xl p-6 mb-4 shadow-sm relative">
+          <div class="absolute top-5 right-5">
+            <span class="text-[10px] font-bold text-white bg-[#4338CA] px-2.5 py-1 rounded-full uppercase tracking-widest">Flagship</span>
+          </div>
+          <div class="flex items-start justify-between gap-4 mb-4 flex-wrap">
+            <div>
+              <div class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest mb-1">Tier 2</div>
+              <h3 class="text-[17px] font-bold text-[#0F0F0F]">Core Cohort</h3>
+              <p class="text-[13px] text-[#8A8A88]">Ship Your First AI App — 4-Week Cohort</p>
+            </div>
+            <div class="text-right">
+              <div class="text-[20px] font-bold text-[#4338CA]">₱8,999 – ₱12,999</div>
+              <div class="text-[12px] text-[#9E9E9B]">Early bird / Regular</div>
+            </div>
+          </div>
+          <div class="text-[12.5px] font-semibold text-[#8A8A88] mb-3">Best for: Founders, freelancers, creators, marketers</div>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29] mb-5">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>4 weeks live, 2 sessions per week</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Weekly build assignments + Prototype review</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Validation scripts + Launch checklist</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Private community + Demo day</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Certificate + Templates and prompts</li>
+          </ul>
+          <div class="bg-[#F5F4F0] rounded-lg p-4">
+            <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">Payment Options</div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[13px]">
+              <div class="bg-white rounded-lg px-3 py-2 text-center border border-[#E5E5E3] text-[#2C2C29]">₱8,999 early bird</div>
+              <div class="bg-white rounded-lg px-3 py-2 text-center border border-[#E5E5E3] text-[#2C2C29]">₱12,999 regular</div>
+              <div class="bg-white rounded-lg px-3 py-2 text-center border border-[#E5E5E3] text-[#2C2C29]">2× ₱6,999</div>
+              <div class="bg-white rounded-lg px-3 py-2 text-center border border-[#E5E5E3] text-[#2C2C29]">Group of 3: ₱24k</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="bg-white border border-[#E8E8E6] rounded-xl p-6 mb-4 shadow-sm">
+          <div class="flex items-start justify-between gap-4 mb-4 flex-wrap">
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Tier 3</div>
+              <h3 class="text-[17px] font-bold text-[#0F0F0F]">Pro Builder</h3>
+              <p class="text-[13px] text-[#8A8A88]">Ship Your First AI App Pro</p>
+            </div>
+            <div class="text-right">
+              <div class="text-[20px] font-bold text-[#0F0F0F]">₱24,999 – ₱35,000</div>
+            </div>
+          </div>
+          <div class="text-[12.5px] font-semibold text-[#8A8A88] mb-3">Best for: Serious freelancers, agency owners, and founders</div>
+          <p class="text-[14px] text-[#5A5A57] mb-3">Everything in Core Cohort, plus:</p>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29]">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>2 private strategy/review calls</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>App idea selection help + Build review</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Security/basic QA checklist</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Monetization model review</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Offer and landing page review</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Proposal/pricing templates for freelancers</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Access to future template updates</li>
+          </ul>
+        </div>
+
+        <!-- Tier 4 -->
+        <div class="bg-white border border-[#E8E8E6] rounded-xl p-6 shadow-sm">
+          <div class="flex items-start justify-between gap-4 mb-4 flex-wrap">
+            <div>
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Tier 4</div>
+              <h3 class="text-[17px] font-bold text-[#0F0F0F]">Business / Team Training</h3>
+              <p class="text-[13px] text-[#8A8A88]">AI App Sprint for Teams</p>
+            </div>
+            <div class="text-right">
+              <div class="text-[20px] font-bold text-[#0F0F0F]">₱75,000 – ₱250,000</div>
+              <div class="text-[12px] text-[#9E9E9B]">Per company workshop</div>
+            </div>
+          </div>
+          <div class="text-[12.5px] font-semibold text-[#8A8A88] mb-3">Best for: MSMEs, agencies, marketing teams, operations teams, schools</div>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29]">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Half-day or full-day private workshop</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Team workflow mapping</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>One internal AI tool prototype</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>AI usage guidelines + Automation opportunity map</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] flex-shrink-0">·</span>Optional follow-up implementation support</li>
+          </ul>
+          <p class="text-[13px] text-[#8A8A88] italic mt-4">This is where the bigger revenue is. Public cohorts build the brand; corporate training monetizes trust.</p>
+        </div>
+      </section>
+
+      <!-- ─── 05: FUCK YEAH ─── -->
+      <section id="fuckyeah" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">05</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">The "Fuck Yeah" Value Proposition</h2>
+        </div>
+        <p class="text-[#5A5A57] mb-9">People do not say "fuck yeah" because of modules. They say it because the offer removes a painful bottleneck and gives them something tangible. Each persona needs a different version.</p>
+
+        <!-- FY: Founders -->
+        <div id="fy-founders" class="bg-[#FFFBEB] border border-amber-100 rounded-xl p-6 mb-5 scroll-mt-10">
+          <div class="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-2">For Non-Technical Founders</div>
+          <h3 class="text-[19px] font-bold text-[#0F0F0F] mb-5 leading-snug">Validate your startup idea before wasting months and money on development.</h3>
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">They Get</div>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29] mb-5">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A working MVP prototype</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A landing page to collect interest</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A clear product scope</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>User interview scripts</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A launch plan</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Confidence to talk to users, investors, or developers</li>
+          </ul>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div class="text-[10px] font-bold text-amber-700 uppercase tracking-widest mb-2">Killer Bonus — Developer Handoff Pack</div>
+            <ul class="space-y-1 text-[13.5px] text-[#2C2C29]">
+              <li class="flex gap-2"><span class="text-amber-500 flex-shrink-0">·</span>Feature list + User flows + Screenshots</li>
+              <li class="flex gap-2"><span class="text-amber-500 flex-shrink-0">·</span>Database notes + Known limitations</li>
+              <li class="flex gap-2"><span class="text-amber-500 flex-shrink-0">·</span>Next version roadmap</li>
+            </ul>
+            <p class="text-[12.5px] text-amber-700 mt-3 italic">A founder may not be ready to build a real SaaS, but they absolutely need a clear prototype and spec before hiring anyone.</p>
+          </div>
+        </div>
+
+        <!-- FY: Freelancers -->
+        <div id="fy-freelancers" class="bg-[#FFFBEB] border border-amber-100 rounded-xl p-6 mb-5 scroll-mt-10">
+          <div class="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-2">For Freelancers & Agency Owners</div>
+          <h3 class="text-[19px] font-bold text-[#0F0F0F] mb-5 leading-snug">Turn AI app building into a new paid service you can sell to clients.</h3>
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">They Get</div>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29] mb-5">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>3 portfolio-ready AI app examples</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Client discovery script</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Proposal template + Pricing calculator</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Build process checklist</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Scope control templates</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>"AI App Audit" service offer</li>
+          </ul>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div class="text-[10px] font-bold text-amber-700 uppercase tracking-widest mb-2">Killer Bonus — ₱30k AI App Service Starter Kit</div>
+            <ul class="space-y-1 text-[13.5px] text-[#2C2C29]">
+              <li class="flex gap-2"><span class="text-amber-500 flex-shrink-0">·</span>Sales page copy + Proposal deck</li>
+              <li class="flex gap-2"><span class="text-amber-500 flex-shrink-0">·</span>Client questionnaire + Delivery timeline</li>
+              <li class="flex gap-2"><span class="text-amber-500 flex-shrink-0">·</span>Pricing tiers + Scope boundaries + Upsell ideas</li>
+            </ul>
+            <p class="text-[12.5px] text-amber-700 mt-3 italic">Likely the strongest offer for your personal brand — you already understand Webflow, websites, SaaS, and client services.</p>
+          </div>
+        </div>
+
+        <!-- FY: MSMEs -->
+        <div id="fy-msme" class="bg-[#FFFBEB] border border-amber-100 rounded-xl p-6 mb-5 scroll-mt-10">
+          <div class="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-2">For MSME Owners</div>
+          <h3 class="text-[19px] font-bold text-[#0F0F0F] mb-5 leading-snug">Fix one annoying business workflow and turn it into a simple AI-powered system.</h3>
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">They Get</div>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29] mb-5">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A workflow automation map</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>One internal tool</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Reduced repetitive admin work</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>AI SOP for staff</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Automation checklist</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Practical use cases for sales, operations, reporting, and customer support</li>
+          </ul>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div class="text-[10px] font-bold text-amber-700 uppercase tracking-widest mb-2">Killer Bonus — Business Workflow Finder</div>
+            <p class="text-[13.5px] text-[#2C2C29]">A guided worksheet that helps them identify the top 3 places AI can save time or money in their business.</p>
+          </div>
+        </div>
+
+        <!-- FY: Students -->
+        <div id="fy-students" class="bg-[#FFFBEB] border border-amber-100 rounded-xl p-6 scroll-mt-10">
+          <div class="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-2">For Students & Career Switchers</div>
+          <h3 class="text-[19px] font-bold text-[#0F0F0F] mb-5 leading-snug">Build a portfolio project that proves you can use AI to create real things, not just write prompts.</h3>
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2.5">They Get</div>
+          <ul class="space-y-1.5 text-[14px] text-[#2C2C29] mb-5">
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>A live app link</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Portfolio writeup + Demo video script</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Certificate</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>LinkedIn post template</li>
+            <li class="flex gap-2.5"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Interview talking points</li>
+          </ul>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div class="text-[10px] font-bold text-amber-700 uppercase tracking-widest mb-2">Killer Bonus — AI Builder Portfolio Kit</div>
+            <p class="text-[13.5px] text-[#2C2C29]">Helps them turn the app into proof of skill — not just another project on a list.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── 06: STRATEGIC REC ─── -->
+      <section id="strategic-rec" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-7">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">06</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">Strategic Recommendation</h2>
+        </div>
+
+        <div class="bg-[#F5F4F0] border border-[#E5E5E3] rounded-xl p-6 mb-7">
+          <p class="text-[15px] text-[#5A5A57] mb-3">Do not launch this as a generic PH course for everyone. Launch it first for this specific segment:</p>
+          <p class="text-[18px] font-semibold text-[#0F0F0F]">Freelancers, designers, marketers, and Webflow/no-code builders who want to add AI app building as a paid service.</p>
+        </div>
+
+        <h3 class="text-[17px] font-semibold text-[#0F0F0F] mb-4">Why This Audience First</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8 text-[14px] text-[#2C2C29]">
+          <div class="flex gap-2.5 items-start"><span class="text-emerald-600 font-bold mt-0.5 flex-shrink-0">✓</span>Clear ROI — course pays for itself with one client</div>
+          <div class="flex gap-2.5 items-start"><span class="text-emerald-600 font-bold mt-0.5 flex-shrink-0">✓</span>Existing clients or active client acquisition intent</div>
+          <div class="flex gap-2.5 items-start"><span class="text-emerald-600 font-bold mt-0.5 flex-shrink-0">✓</span>Higher willingness to pay</div>
+          <div class="flex gap-2.5 items-start"><span class="text-emerald-600 font-bold mt-0.5 flex-shrink-0">✓</span>Lower need for convincing</div>
+          <div class="flex gap-2.5 items-start"><span class="text-emerald-600 font-bold mt-0.5 flex-shrink-0">✓</span>Stronger word-of-mouth potential</div>
+          <div class="flex gap-2.5 items-start"><span class="text-emerald-600 font-bold mt-0.5 flex-shrink-0">✓</span>Better testimonials</div>
+        </div>
+
+        <blockquote class="pl-5 border-l-4 border-[#4338CA] py-1 mb-6">
+          <p class="text-[17px] font-semibold text-[#0F0F0F] leading-snug">"I'll teach Filipino freelancers and digital service providers how to build and sell AI-powered tools for clients — without becoming software engineers."</p>
+        </blockquote>
+
+        <p class="text-[#5A5A57]">The founder market is attractive, but many aspiring founders are idea-rich and cash-poor. Students are high-volume but low-ticket. MSMEs are valuable but require more education and trust. The freelancer wedge is the strongest entry point.</p>
+      </section>
+
+      <!-- ─── 07: REFINED CONCEPT ─── -->
+      <section id="refined-concept" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-7">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">07</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">Refined Course Concept</h2>
+        </div>
+
+        <div class="bg-white border border-[#E8E8E6] rounded-xl p-6 mb-7 shadow-sm">
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1">Course Name</div>
+          <div class="text-[26px] font-bold text-[#0F0F0F] leading-tight mb-1.5">AI App Builder Sprint</div>
+          <div class="text-[15px] text-[#5A5A57] italic mb-5">Learn how to build and sell client-ready AI tools without coding.</div>
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-2">Who It's For</div>
+          <p class="text-[14px] text-[#2C2C29]">Freelancers, designers, marketers, VAs, Webflow developers, no-code builders, and agency owners in the Philippines.</p>
+        </div>
+
+        <h3 class="text-[17px] font-semibold text-[#0F0F0F] mb-4">What They Build</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-9">
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>AI lead qualification tool</div>
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>AI content brief generator</div>
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>AI proposal generator</div>
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Client onboarding portal</div>
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Internal reporting dashboard</div>
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>AI customer support assistant</div>
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Appointment / inquiry automation system</div>
+          <div class="flex gap-2.5 items-start text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">→</span>Niche calculator or assessment tool</div>
+        </div>
+
+        <h3 class="text-[17px] font-semibold text-[#0F0F0F] mb-4">What They Leave With</h3>
+        <ol class="space-y-2 mb-9">
+          <li class="flex gap-3 text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">1.</span>A live app</li>
+          <li class="flex gap-3 text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">2.</span>A client-ready demo</li>
+          <li class="flex gap-3 text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">3.</span>A service offer</li>
+          <li class="flex gap-3 text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">4.</span>A sales page</li>
+          <li class="flex gap-3 text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">5.</span>A proposal template</li>
+          <li class="flex gap-3 text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">6.</span>A pricing model</li>
+          <li class="flex gap-3 text-[14px] text-[#2C2C29] bg-white border border-[#E8E8E6] rounded-lg px-4 py-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">7.</span>A repeatable build process</li>
+        </ol>
+
+        <blockquote class="pl-5 border-l-4 border-[#4338CA] bg-[#F5F4F0] rounded-r-xl py-5 pr-5">
+          <div class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest mb-2">Course Promise</div>
+          <p class="text-[17px] font-semibold text-[#0F0F0F] leading-snug italic">"In 4 weeks, build a working AI-powered tool, package it as a paid service, and learn how to sell it to clients — even if you are not a developer."</p>
+        </blockquote>
+      </section>
+
+      <!-- ─── 08: WHAT TO CHANGE ─── -->
+      <section id="what-to-change" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">08</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">What to Change</h2>
+        </div>
+        <p class="text-[#5A5A57] mb-7">Compared to the original research — what to keep, what to change, and what to add.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+          <!-- Keep -->
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-[12px] flex-shrink-0">✓</span>
+              <span class="text-[14px] font-semibold text-[#0F0F0F]">Keep</span>
+            </div>
+            <ul class="space-y-2.5 text-[13.5px] text-[#2C2C29]">
+              <li class="flex gap-2"><span class="text-emerald-500 mt-0.5 flex-shrink-0">·</span>4-week format</li>
+              <li class="flex gap-2"><span class="text-emerald-500 mt-0.5 flex-shrink-0">·</span>Live build-alongs</li>
+              <li class="flex gap-2"><span class="text-emerald-500 mt-0.5 flex-shrink-0">·</span>Lovable, Bolt, Replit, Claude, ChatGPT, Make/Zapier, Webflow, Supabase</li>
+              <li class="flex gap-2"><span class="text-emerald-500 mt-0.5 flex-shrink-0">·</span>Meta Ads validation</li>
+              <li class="flex gap-2"><span class="text-emerald-500 mt-0.5 flex-shrink-0">·</span>Waitlist before building full curriculum</li>
+              <li class="flex gap-2"><span class="text-emerald-500 mt-0.5 flex-shrink-0">·</span>PH-focused positioning</li>
+            </ul>
+          </div>
+
+          <!-- Change -->
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold text-[12px] flex-shrink-0">✗</span>
+              <span class="text-[14px] font-semibold text-[#0F0F0F]">Change</span>
+            </div>
+            <ul class="space-y-2.5 text-[13.5px] text-[#2C2C29]">
+              <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">·</span>Don't lead with "Vibe Coding Philippines"</li>
+              <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">·</span>Don't target students first</li>
+              <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">·</span>Don't make curriculum too tool-heavy</li>
+              <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">·</span>Don't promise "profitable micro-SaaS" too early</li>
+            </ul>
+          </div>
+
+          <!-- Add -->
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-6 h-6 rounded-full bg-[#EEF2FF] flex items-center justify-center text-[#4338CA] font-bold text-[12px] flex-shrink-0">+</span>
+              <span class="text-[14px] font-semibold text-[#0F0F0F]">Add</span>
+            </div>
+            <ul class="space-y-2.5 text-[13.5px] text-[#2C2C29]">
+              <li class="flex gap-2"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">·</span>Security and QA as a differentiator</li>
+              <li class="flex gap-2"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">·</span>"When not to use vibe coding" module</li>
+              <li class="flex gap-2"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">·</span>Developer handoff process</li>
+              <li class="flex gap-2"><span class="text-[#4338CA] mt-0.5 flex-shrink-0">·</span>Service packaging framework</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Don't Ship Broken AI Apps -->
+        <div class="bg-white border-2 border-[#4338CA] rounded-xl p-6">
+          <div class="flex items-center gap-2 mb-3 flex-wrap">
+            <span class="text-[10px] font-bold text-[#4338CA] bg-[#EEF2FF] px-2.5 py-1 rounded-md uppercase tracking-widest">New Module</span>
+            <span class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest">Differentiator</span>
+          </div>
+          <h3 class="text-[20px] font-bold text-[#0F0F0F] mb-3">Don't Ship Broken AI Apps</h3>
+          <p class="text-[14px] text-[#5A5A57] mb-5">This module covers the safety and quality layer that competitors skip — and that is exactly why it should be included. Security issues around AI-generated apps are now a real and public concern.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13.5px] text-[#2C2C29]">
+            <div class="flex gap-2"><span class="text-[#4338CA] flex-shrink-0">·</span>Basic privacy rules</div>
+            <div class="flex gap-2"><span class="text-[#4338CA] flex-shrink-0">·</span>Public vs private app settings</div>
+            <div class="flex gap-2"><span class="text-[#4338CA] flex-shrink-0">·</span>API key safety</div>
+            <div class="flex gap-2"><span class="text-[#4338CA] flex-shrink-0">·</span>Data collection limits</div>
+            <div class="flex gap-2"><span class="text-[#4338CA] flex-shrink-0">·</span>Testing flows</div>
+            <div class="flex gap-2"><span class="text-[#4338CA] flex-shrink-0">·</span>When to ask a real developer</div>
+            <div class="flex gap-2"><span class="text-[#4338CA] flex-shrink-0">·</span>How to hand off a prototype properly</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── 09: BEST FINAL OFFER ─── -->
+      <section id="best-offer" class="mb-20 scroll-mt-10">
+        <div class="flex items-center gap-3 mb-7">
+          <span class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest bg-[#EEF2FF] px-2.5 py-1 rounded-md">09</span>
+          <h2 class="text-[24px] font-bold text-[#0F0F0F]">Best Final Offer</h2>
+        </div>
+
+        <div class="bg-white border border-[#E8E8E6] rounded-xl p-7 mb-7 shadow-sm">
+          <div class="text-[27px] font-bold text-[#0F0F0F] leading-tight mb-2">AI App Builder Sprint</div>
+          <p class="text-[15px] text-[#5A5A57] italic mb-7">A 4-week live cohort for Filipino freelancers, founders, and digital service providers who want to build and sell AI-powered tools without coding.</p>
+
+          <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-3">Outcome — Students Leave With</div>
+          <ol class="space-y-2 mb-7 text-[14px] text-[#2C2C29]">
+            <li class="flex gap-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">1.</span>One working AI-powered app</li>
+            <li class="flex gap-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">2.</span>One landing page or demo page</li>
+            <li class="flex gap-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">3.</span>One validated use case</li>
+            <li class="flex gap-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">4.</span>One client-ready service offer</li>
+            <li class="flex gap-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">5.</span>One pricing/proposal template</li>
+            <li class="flex gap-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">6.</span>One launch or outreach plan</li>
+            <li class="flex gap-3"><span class="text-[#4338CA] font-bold flex-shrink-0 w-4">7.</span>One safety and QA checklist</li>
+          </ol>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div class="bg-[#F5F4F0] rounded-xl p-4">
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Best Price</div>
+              <div class="text-[19px] font-bold text-[#4338CA]">₱12,999</div>
+              <div class="text-[12px] text-[#9E9E9B]">₱8,999 early bird</div>
+            </div>
+            <div class="bg-[#F5F4F0] rounded-xl p-4">
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Premium Tier</div>
+              <div class="text-[19px] font-bold text-[#0F0F0F]">₱29,999</div>
+              <div class="text-[12px] text-[#9E9E9B]">With 1:1 reviews + client offer help</div>
+            </div>
+            <div class="bg-[#F5F4F0] rounded-xl p-4">
+              <div class="text-[10px] font-bold text-[#B0B0AE] uppercase tracking-widest mb-1.5">Best Audience</div>
+              <div class="text-[13.5px] font-semibold text-[#0F0F0F] leading-snug">Freelancers, no-code builders, marketers, agency owners</div>
+            </div>
+          </div>
+        </div>
+
+        <blockquote class="pl-5 border-l-4 border-[#4338CA] bg-[#F5F4F0] rounded-r-xl py-6 pr-6">
+          <div class="text-[10px] font-bold text-[#4338CA] uppercase tracking-widest mb-3">Best Hook</div>
+          <p class="text-[18px] font-semibold text-[#0F0F0F] leading-relaxed">Your next high-ticket service may not be another website, funnel, or social media package. It could be a custom AI tool your client can actually use. Learn how to build one in 4 weeks — without becoming a software engineer.</p>
+        </blockquote>
+      </section>
+
+      <!-- Footer -->
+      <footer class="border-t border-[#E5E5E3] pt-8 pb-14 text-center">
+        <p class="text-[13px] text-[#B0B0AE]">AI App Builder Sprint · Strategic Brief · May 2026</p>
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    // Scroll-spy using IntersectionObserver
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const setActive = (id) => {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${id}`) {
+          link.classList.add('active');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.getAttribute('id'));
+        }
+      });
+    }, { rootMargin: '-8% 0px -78% 0px', threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Activate first section on load
+    if (sections.length > 0) setActive(sections[0].getAttribute('id'));
+
+    // Mobile sidebar
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      document.getElementById('sidebar-overlay').classList.toggle('hidden');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+      document.getElementById('sidebar-overlay').classList.add('hidden');
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 1024) closeSidebar();
+      });
+    });
+  </script>
+
+</body>
+</html>
